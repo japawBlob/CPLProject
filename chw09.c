@@ -1,28 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
- 
-#include <termios.h>
-#include <fcntl.h>
- 
-#include <string.h>
-#include <unistd.h>
- 
-#include <pthread.h>
-#include <semaphore.h>
+#include "chw09.h"
 
-#include <time.h>
 
-char * recivieMessage(int hSerial){
-    char *chArrBuf = (char*)malloc(sizeof(char)*255);
-    memset (chArrBuf , '\0', 255 );
-    int n = 0;
-    while(strlen(chArrBuf) == 0 /*&& chArrBuf[n-2] != '\n' && chArrBuf[n-1] != '\r'*/){
-        usleep(1000*100);
-        n = read( hSerial, chArrBuf, 255);
-    }
-    chArrBuf[n-2] = '\0';
-    return chArrBuf;
-}
 
 int main(int argc, char const *argv[]){
     printf("program started\n");
@@ -37,7 +15,7 @@ int main(int argc, char const *argv[]){
  
     struct termios o_tty;
     memset (&o_tty, 0, sizeof o_tty);
-    int iRetVal = tcgetattr (hSerial , &o_tty);
+    tcgetattr (hSerial , &o_tty);
  
  
     /* set raw input, 1 second timeout */
@@ -58,8 +36,21 @@ int main(int argc, char const *argv[]){
     /* set the options */
     tcsetattr(hSerial, TCSANOW, &o_tty);
 
-    
+
+    /*while(1){
+        char* c = recivieMessage(hSerial);
+        printf("%s\n", c);
+        if (strstr(c, "SEL") != NULL)
+        {
+            free(c);
+            break;
+        }
+        free(c);
+    }*/
+
     while(1){
+        char* message = "*IDN?\n\r";
+        sendMessage(hSerial, message);
         char* c = recivieMessage(hSerial);
         printf("%s\n", c);
         if (strstr(c, "SEL") != NULL)
