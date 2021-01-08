@@ -20,6 +20,7 @@ doubleLinkedList* mainList;
 
 doubleLinkedList* includeFile(char* file);
 
+
 int main(int argc, char const *argv[])
 {	
 	
@@ -30,7 +31,7 @@ int main(int argc, char const *argv[])
 	int i = 0;
 	node* newHead = mainList->head;
 	current = newHead;
-	/*while(current != NULL){
+	while(current != NULL){
 		printf("%i    %s\n", current->index, current->string);
 		char* label = NULL;
 		if (strstr(current->string, "#if:") == NULL){
@@ -49,12 +50,13 @@ int main(int argc, char const *argv[])
 		} else {
 
 		}
+		if (strstr(current->string, "#exit:") != NULL){
+			break;
+		}
 		current = current->next;
 		i++;
 		if(i>250) break;
-	}*/
-
-
+	}
 	current = mainList->head;
 	while(current != NULL){
 		node* temp = current;
@@ -77,7 +79,7 @@ doubleLinkedList* includeFile(char* file){
 	int position = 1;
 	while((c = fgetc(f)) != EOF){
 		current = (node*) malloc (sizeof(node));
-		char* buf = (char*) malloc (sizeof(char)*1000);
+		char* buf = (char*) malloc (sizeof(char)*100);
 		int i = 0;
 		while(c != '\n'){
 			printf("%c", c);
@@ -94,9 +96,16 @@ doubleLinkedList* includeFile(char* file){
 			printf("%s\n", newFileName);
 			doubleLinkedList* tempList;
 			tempList = includeFile(newFileName);
-			current->next = tempList->head;
+
+			previous->next = current;
+			current->previous = previous;
+
 			previous = tempList->tail;
+			current->next = tempList->head;
+			tempList->head->previous = current;
+			list->tail = tempList->tail;
 			free(tempList);
+			current -> index = position++;
 			continue;
 		}
 		if(list->head == NULL){
