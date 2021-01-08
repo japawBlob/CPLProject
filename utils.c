@@ -18,10 +18,8 @@ char * recivieMessage(int hSerial){
 }
 
 int sendMessage(int hSerial, char* input){
-	int length = strlen(input);
-	input[length] = '\n';
-	input[length+1] = '\r';
-	input[length+2] = '\0';
-    int n_written = write( hSerial, input, strlen(input)); 
+	char payload [255];
+	sprintf(payload, "%s\n\r", input);
+    int n_written = write( hSerial, payload, strlen(payload)); 
     return n_written;
 }

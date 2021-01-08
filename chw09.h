@@ -24,10 +24,12 @@ typedef struct {
 	node* tail;
 } doubleLinkedList;
 
+int hSerial;
+
 int main(int argc, char const *argv[]);
 char * recivieMessage(int hSerial);
 int sendMessage(int hSerial, char input[]);
 
 
-int linked(int argc, char const *argv[]);
+int executeLinked(doubleLinkedList* mainList);
 doubleLinkedList* includeFile(char* file);

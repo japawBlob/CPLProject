@@ -5,26 +5,38 @@ doubleLinkedList* mainList;
 doubleLinkedList* includeFile(char* file);
 
 /**/
-int linked(int argc, char const *argv[])
+int executeLinked(doubleLinkedList* mainList)
 {	
-	
-	mainList = includeFile("main.txt");
-
 	node* current = mainList->head;
 
 	int i = 0;
-	node* newHead = mainList->head;
-	current = newHead;
 	while(current != NULL){
-		printf("%i    %s\n", current->index, current->string);
+		printf("Sending %i    %s\n", current->index, current->string);
+		sendMessage(hSerial, current->string);
+		usleep(1000* 100);
+		char* c = recivieMessage(hSerial);
+
+		if(c != NULL){
+            printf("%s\n", c);
+            free(c);
+        }
+
 		if (strstr(current->string, "#if:") == NULL){
 			if(strstr(current->string, "goto") != NULL){
 				char* label = strstr(current->string, "goto:");
 				label += strlen("goto");
+				char* temp = strstr(label, "\n");
+				if(temp != NULL){
+					*temp = '\0';
+				}
 				printf("%s\n", label);
 				current = mainList->head;
 				while(current->next != NULL){
-					if(strstr(current->string, label) != NULL && strstr(current->string, "#label")){
+					char temp [200];
+					sprintf(temp, "#label%s", label);
+					/*printf("SEARCHING:%s\nHAVE:%i   %s\n", temp, current->index, current->string);*/
+					if(strstr(current->string, label) != NULL && strstr(current->string, "#label") != NULL){
+						printf("here\n");
 						break;
 					}
 					current = current->next;
@@ -40,15 +52,6 @@ int linked(int argc, char const *argv[])
 		i++;
 		if(i>250) break;
 	}
-	current = mainList->head;
-	while(current != NULL){
-		node* temp = current;
-		current = current->next;
-		free(temp->string);
-		free(temp);
-	}
-	free(mainList);
-	
 	return 0;
 }
 doubleLinkedList* includeFile(char* file){

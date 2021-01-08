@@ -11,7 +11,7 @@ int main(int argc, char const *argv[]){
         serialPort = argv[1];
     }
  
-    int hSerial = open( serialPort, O_RDWR| O_NONBLOCK | O_NDELAY );
+    hSerial = open( serialPort, O_RDWR| O_NONBLOCK | O_NDELAY );
  
     struct termios o_tty;
     memset (&o_tty, 0, sizeof o_tty);
@@ -47,25 +47,28 @@ int main(int argc, char const *argv[]){
         }
         free(c);
     }*/
-    doubleLinkedList* mainList = includeFile("intro.txt");
+    doubleLinkedList* mainList = includeFile("main.txt");
     node* current = mainList->head;
-    while(current!=NULL){
-        char* message = current->string;
-        sendMessage(hSerial, message);
+    while(current != NULL){
+        printf("%i    %s\n", current->index, current->string);
+        current = current->next;
+    }
+    current = mainList->head;
+    executeLinked(mainList);
+    /*while(1){
         usleep(1000*100);
         char* c = recivieMessage(hSerial);
         if(c != NULL){
             printf("%s\n", c);
-            if (strstr(c, "SEL") != NULL)
-            {
+            if (strstr(c, "SEL") != NULL){
                 free(c);
                 break;
             }
             free(c);
         }
         
-        current = current->next;
-    }
+        //current = current->next;
+    }*/
 
     current = mainList->head;
     while(current != NULL){
