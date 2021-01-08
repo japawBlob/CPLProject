@@ -47,19 +47,34 @@ int main(int argc, char const *argv[]){
         }
         free(c);
     }*/
-
-    while(1){
-        char* message = "*IDN?\n\r";
+    doubleLinkedList* mainList = includeFile("intro.txt");
+    node* current = mainList->head;
+    while(current!=NULL){
+        char* message = current->string;
         sendMessage(hSerial, message);
+        usleep(1000*100);
         char* c = recivieMessage(hSerial);
-        printf("%s\n", c);
-        if (strstr(c, "SEL") != NULL)
-        {
+        if(c != NULL){
+            printf("%s\n", c);
+            if (strstr(c, "SEL") != NULL)
+            {
+                free(c);
+                break;
+            }
             free(c);
-            break;
         }
-        free(c);
+        
+        current = current->next;
     }
+
+    current = mainList->head;
+    while(current != NULL){
+        node* temp = current;
+        current = current->next;
+        free(temp->string);
+        free(temp);
+    }
+    free(mainList);
     
     close(hSerial);
  

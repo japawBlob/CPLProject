@@ -1,27 +1,11 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-
-
-typedef struct node {
-	int index;
-	struct node* next;
-	struct node* previous;
-	char* string;
-} node;
-
-typedef struct {
-	node* head;
-	node* tail;
-} doubleLinkedList;
+#include "chw09.h"
 
 doubleLinkedList* mainList;
 
 doubleLinkedList* includeFile(char* file);
 
 /**/
-int main(int argc, char const *argv[])
+int linked(int argc, char const *argv[])
 {	
 	
 	mainList = includeFile("main.txt");
@@ -33,7 +17,6 @@ int main(int argc, char const *argv[])
 	current = newHead;
 	while(current != NULL){
 		printf("%i    %s\n", current->index, current->string);
-		char* label = NULL;
 		if (strstr(current->string, "#if:") == NULL){
 			if(strstr(current->string, "goto") != NULL){
 				char* label = strstr(current->string, "goto:");
