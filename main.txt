@@ -15,13 +15,13 @@
 DRAW:CLEAR 9
 DRAW:SETTEXTCOLOR 1 
 DRAW:SETFONT 16
-DRAW:TEXT 64,120,Bye, bye!,1
+DRAW:TEXT 0,80,Bye bye!,3
 #exit:
 
 #label:LabelLedOn:
 DRAW:CLEAR 4
 DRAW:SETFONT 20
-DRAW:TEXT 64,120,Led is ON,1
+DRAW:TEXT 0,80,Led is ON,3
 LED ON
 #wait_for_joystick:2000:8:
 #if:JOY_SEL:goto:LabelIntro:
@@ -30,7 +30,7 @@ LED ON
 #label:LabelLedOff:
 DRAW:CLEAR 4
 DRAW:SETFONT 20
-DRAW:TEXT 64,120,Led is OFF,1
+DRAW:TEXT 0,80,Led is OFF,3
 LED OFF
 #wait_for_joystick:2000:8:
 #if:JOY_SEL:goto:LabelIntro:
@@ -41,14 +41,14 @@ DRAW:CLEAR 2
 DRAW:SETTEXTCOLOR 3 
 DRAW:CIRCLE 49,20,10
 DRAW:CIRCLE 79,20,10
-DRAW:SETTEXTCOLOR 2 
+DRAW:SETTEXTCOLOR 1 
 DRAW:LINE 55,40,60,45 
 DRAW:LINE 68,45,73,40 
 DRAW:LINE 60,45,68,45 
 DRAW:SETFONT 12
-DRAW:TEXT 64,120,Nucleo RULEZ!,1
-DRAW:TEXT 64,140,Press Left or Right,1
-DRAW:TEXT 64,160,or Down to Exit!,1
+DRAW:TEXT 0,80,Nucleo RULEZ!,3
+DRAW:TEXT 0,100,Press Left or Right,3
+DRAW:TEXT 0,120,or Down to Exit!,3
 #wait_for_joystick:
 #if:JOY_LEFT:goto:LabelLeft:
 #if:JOY_RIGHT:goto:LabelRight:
@@ -59,6 +59,6 @@ DRAW:TEXT 64,160,or Down to Exit!,1
 DRAW:CLEAR 4
 DRAW:SETFONT 20
 DRAW:SETTEXTCOLOR 3
-DRAW:TEXT 64,120,Left,1
+DRAW:TEXT 0,80,Left,3
 #wait_for_joystick:2000:8:
 #else:goto:LabelIntro:

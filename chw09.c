@@ -68,7 +68,6 @@ int main(int argc, char const *argv[]){
         if (pthread_mutex_trylock(&readyToJoinExecutinThread) == 0){
             pthread_join(fileExecutinHandler, NULL);
             pthread_mutex_unlock(&fileExecutionReady);
-            printf("Thread joined\n");
         }
 
         switch(in){
@@ -138,7 +137,7 @@ int main(int argc, char const *argv[]){
             printf("Thread joined\n");
         }
     }
-    
+    pthread_join(fileExecutinHandler, NULL);
     pthread_join(communicationHandler, NULL);
 
     /*doubleLinkedList* mainList = includeFile("main.txt");
