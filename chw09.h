@@ -12,6 +12,17 @@
 
 #include <time.h>
 
+enum commandOptions{LED_ON, LED_OFF, BUTTON, JOYSTICK};
+
+pthread_mutex_t messageReady;
+pthread_mutex_t messageLock;
+pthread_mutex_t endProgram;
+pthread_mutex_t fileExecutionReady;
+pthread_mutex_t readyToJoinExecutinThread;
+char glob_message[255];
+
+int prom;
+
 typedef struct node {
 	int index;
 	struct node* next;
@@ -26,10 +37,16 @@ typedef struct {
 
 int hSerial;
 
+void printMenu();
+void flushStdin ();
+int echo ();
+
 int main(int argc, char const *argv[]);
 char * recivieMessage(int hSerial);
 int sendMessage(int hSerial, char input[]);
 
-
+void* executeCommandsFromFile(void* file);
 int executeLinked(doubleLinkedList* mainList);
 doubleLinkedList* includeFile(char* file);
+
+void* communication(void* blob);
