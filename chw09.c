@@ -49,6 +49,10 @@ int main(int argc, char const *argv[]){
     pthread_mutex_init(&fileExecutionReady, NULL);
     pthread_mutex_init(&readyToJoinExecutinThread, NULL);
     pthread_mutex_lock(&readyToJoinExecutinThread);
+    pthread_mutex_init(&needResponse, NULL);
+    pthread_mutex_lock(&needResponse);
+    pthread_mutex_init(&responseLock, NULL);
+    pthread_mutex_lock(&responseLock);
 
     pthread_t communicationHandler;
     pthread_t fileExecutinHandler;
@@ -160,6 +164,8 @@ int main(int argc, char const *argv[]){
     pthread_mutex_destroy(&endProgram);
     pthread_mutex_destroy(&fileExecutionReady);
     pthread_mutex_destroy(&readyToJoinExecutinThread);
+    pthread_mutex_destroy(&needResponse);
+    pthread_mutex_destroy(&responseLock);
 
     close(hSerial);
  

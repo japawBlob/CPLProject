@@ -1,4 +1,7 @@
 *IDN?
 LED OFF
+#wait_for_joystick:8000:8:
+#wait_for_joystick
 DRAW:*IDN?
 DRAW:CLEAR 1
+

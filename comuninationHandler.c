@@ -13,6 +13,11 @@ void* communication(void* blob){
 		if (response != NULL)
 		{
 			printf("%s\n", response);
+			if (pthread_mutex_trylock(&needResponse) == 0)
+			{
+				strcpy(glob_response, response);
+				pthread_mutex_unlock(&responseLock);
+			}
 			free(response);
 		}
 		if(pthread_mutex_trylock(&endProgram) == 0){
